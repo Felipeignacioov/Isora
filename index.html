@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
+<title>Islas · Tu pequeño mundo</title>
+<meta name="theme-color" content="#eaf6fc">
+<style>
+/* ===== 2. CSS ===== */
+:root{--ink:#1f3a4d;--soft:#6b8596;--sky:#dff1fb;--water:#3aa6d9;--water2:#cfeaf5;--sun:#f6c453;--leaf:#7cc47a;--sand:#f3dfb0;--card:#fff;--line:#e6f0f5;--r:24px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+:root:not([data-theme="light"]){color-scheme:light}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif;color:var(--ink);background:linear-gradient(var(--sk,#e6f5fc),#fff 340px)}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+#app{max-width:520px;margin:0 auto;min-height:100%;position:relative;padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
+.sky{position:absolute;inset:0 0 auto 0;height:300px;overflow:hidden;pointer-events:none}
+.cloud{position:absolute;width:90px;height:26px;background:#fff;border-radius:30px;opacity:.9;animation:drift 38s linear infinite}
+.cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud:before{width:42px;height:42px;left:14px;top:-20px}.cloud:after{width:30px;height:30px;left:44px;top:-12px}
+@keyframes drift{from{transform:translateX(-140px)}to{transform:translateX(620px)}}
+main{position:relative;padding:28px 20px 0}
+h1{font-size:34px;line-height:1.1;margin:18px 0 4px;letter-spacing:-.5px}
+h2{font-size:19px;margin:28px 0 12px}
+.sub{color:var(--soft);margin:0}
+.view>*{animation:fade .6s both}.view>*:nth-child(2){animation-delay:.05s}.view>*:nth-child(3){animation-delay:.1s}.view>*:nth-child(4){animation-delay:.15s}.view>*:nth-child(5){animation-delay:.2s}.view>*:nth-child(n+6){animation-delay:.25s}.view.still>*{animation:none}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:var(--r);padding:18px;box-shadow:0 8px 30px rgba(58,166,217,.10);border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{text-align:left;display:block;width:100%}
+.tile .e{font-size:22px}.tile .l{font-size:13px;color:var(--soft);margin-top:6px}.tile .v{font-size:19px;font-weight:700;margin-top:2px}
+.cta{width:100%;margin:22px 0 4px;padding:22px;border-radius:30px;color:#fff;text-align:left;background:linear-gradient(135deg,#4cb8e6,#2f94d1);box-shadow:0 16px 36px rgba(47,148,209,.35);display:flex;align-items:center;gap:16px;overflow:hidden;position:relative;transition:transform .2s}
+.cta:active{transform:scale(.98)}.cta b{font-size:20px;display:block}.cta span{opacity:.9;font-size:14px}
+.cta svg{width:84px;flex:none;margin-left:auto;animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px)}}
+.btn{padding:16px 22px;border-radius:20px;background:var(--water);color:#fff;font-weight:700;font-size:16px;width:100%}
+.btn.ghost{background:#eef7fc;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 16px;border-radius:99px;background:#eef7fc;font-weight:600;font-size:14px;transition:.2s}
+.chip.on{background:var(--water);color:#fff}
+textarea,input[type=text],input[type=number],input[type=time]{width:100%;font:inherit;color:var(--ink);padding:14px 16px;border-radius:18px;border:2px solid var(--line);background:#fbfeff;outline:0}
+textarea:focus,input:focus{border-color:var(--water)}
+textarea{resize:none;height:84px;font-size:17px}
+label.t{display:block;font-weight:700;font-size:14px;color:var(--soft);margin:18px 0 8px}
+.row{display:flex;align-items:center;gap:12px}
+.hrow{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}.hrow:last-child{border:0}
+.chk{width:34px;height:34px;border-radius:50%;border:2.5px solid #bcd9e8;display:grid;place-items:center;flex:none;transition:.25s;color:#fff}
+.chk svg{width:18px;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .4s .05s}
+.chk.on{background:var(--leaf);border-color:var(--leaf);transform:scale(1.05)}.chk.on svg{stroke-dashoffset:0}
+.dots{display:flex;gap:5px;margin-left:auto}.dot{width:10px;height:10px;border-radius:50%;background:#e3eef4}.dot.on{background:var(--leaf)}.dot.today{outline:2px solid var(--water2);outline-offset:1px}
+.small{font-size:13px;color:var(--soft)}
+.big{font-size:44px;font-weight:800;letter-spacing:-1px}
+.session{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.session:last-child{border:0}
+.session svg{width:52px;flex:none}.session b{display:block}
+/* nav */
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(488px,calc(100% - 24px));background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-radius:30px;box-shadow:0 10px 40px rgba(31,58,77,.15);display:grid;grid-template-columns:1fr 1fr 78px 1fr 1fr;align-items:center;padding:8px;z-index:5}
+nav button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:11px;color:var(--soft);font-weight:600}
+nav button i{font-style:normal;font-size:22px}nav button.on{color:var(--water)}nav [data-v].on{background:#eef7fc;border-radius:20px}
+nav .fab{width:66px;height:66px;border-radius:50%;margin:-30px auto 0;background:linear-gradient(135deg,#ffd76a,#f6b73c);box-shadow:0 10px 24px rgba(246,183,60,.5);display:grid;place-items:center;font-size:30px;padding:0;transition:.2s}
+nav .fab:active{transform:scale(.92)}
+/* sheet */
+#sheet{position:fixed;inset:0;background:rgba(31,58,77,.35);display:none;align-items:flex-end;justify-content:center;z-index:40}
+#sheet.show{display:flex;animation:fade .25s}
+#sheet .in{background:#fff;width:100%;max-width:520px;border-radius:30px 30px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto;animation:up .35s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@media(min-width:700px){#sheet{align-items:center}#sheet .in{border-radius:30px}}
+/* focus */
+#focus{position:fixed;inset:0;z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:linear-gradient(var(--fk,#cfeaf8),#f4fbff 55%,#bfe3f3);overflow:hidden}
+#focus.show{display:flex;animation:fade .8s}
+#focus .isl{width:min(260px,60vw);animation:float 6s ease-in-out infinite}
+#timer{font-size:clamp(64px,20vw,104px);font-weight:800;letter-spacing:-3px;font-variant-numeric:tabular-nums;margin:6px 0}
+#fobj{font-size:20px;max-width:420px;margin:4px 0 6px;font-weight:600}
+.waves{pointer-events:none;position:absolute;bottom:0;left:0;right:0;height:90px;background:radial-gradient(60px 14px at 30px 14px,#a9dcf0 98%,transparent) 0 0/60px 28px repeat-x;opacity:.6;animation:wave 8s linear infinite}
+@keyframes wave{to{background-position:60px 0}}
+.fbtns{display:flex;gap:12px;margin-top:30px;position:relative}.fbtns button{padding:15px 26px;border-radius:99px;font-weight:700;background:#fff;box-shadow:0 8px 22px rgba(31,58,77,.12)}
+.fbtns .end{background:transparent;box-shadow:none;color:var(--soft)}
+.spark{position:absolute;bottom:30%;width:10px;height:10px;border-radius:50%;opacity:0;animation:rise 3s ease-out forwards;pointer-events:none}
+@keyframes rise{20%{opacity:.9}to{transform:translateY(-320px) scale(.4);opacity:0}}
+.stars{display:flex;gap:6px;justify-content:center;margin:10px 0}.stars button{transition:.2s}.stars button.on{transform:scale(1.12)}.stars svg{width:36px;height:36px;fill:#dfeaf0}.stars button.on svg{fill:#f6c453}
+.bars{display:flex;gap:10px;align-items:flex-end;height:110px}.bars div{flex:1;text-align:center;font-size:12px;color:var(--soft)}
+.bars i{display:block;border-radius:10px 10px 4px 4px;background:linear-gradient(var(--water),#8fd3f0);min-height:6px;margin-bottom:6px}
+.arch{display:flex;flex-wrap:wrap;gap:0;justify-content:center;margin-top:8px}.arch svg{width:84px;margin:-6px -4px}
+.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.i .f{fill:currentColor;fill-opacity:.2}
+.ic{--c:#3aa6d9;width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 13%,#fff);color:var(--c);font-size:22px;flex:none}
+.ic.s{width:32px;height:32px;border-radius:11px;font-size:18px}
+.sun{position:absolute;right:-50px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(var(--sc,#fff3c2),transparent 68%)}
+.bar{width:min(240px,60vw);height:6px;border-radius:9px;background:rgba(255,255,255,.75);margin:12px auto 4px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8fd3f0,var(--water));border-radius:9px;transition:width .4s linear}
+.vt{display:flex;align-items:center;gap:10px}.vt+.sub{margin-top:8px}
+nav .fab{color:#fff}nav .fab i{font-size:32px}nav .fab .f{fill-opacity:.4}
+.rs svg{width:12px;height:12px;fill:#f6c453;vertical-align:-1px;margin-right:1px}
+#sheetIn:before{content:"";display:block;width:42px;height:5px;border-radius:9px;background:#dbe8ef;margin:-10px auto 18px}
+.chk.pop{animation:pop .45s}@keyframes pop{50%{transform:scale(1.3)}}
+.world{position:relative;height:190px;border-radius:var(--r);overflow:hidden;background:linear-gradient(var(--sk,#e6f5fc),#fff 70%,#d6eef8);border:1px solid var(--line)}
+.world>div:not(.waves){position:absolute;width:30%;animation:float 6s ease-in-out infinite}.world svg{width:100%}
+.w2{bottom:14px;opacity:.35;animation-direction:reverse;animation-duration:13s}
+.br{width:180px;height:180px;margin:34px auto;border-radius:50%;background:radial-gradient(#fff,#cfeaf8);box-shadow:0 0 0 14px rgba(143,211,240,.25),0 0 0 32px rgba(143,211,240,.12);display:grid;place-items:center;animation:breathe 10s ease-in-out infinite;position:relative}
+@keyframes breathe{0%,100%{transform:scale(.7)}40%{transform:scale(1.12)}}
+.br span{position:absolute;font-weight:700;font-size:20px;color:var(--water);animation:tin 10s infinite}.br span+span{animation-name:tout}
+@keyframes tin{0%,38%{opacity:1}42%,100%{opacity:0}}@keyframes tout{0%,38%{opacity:0}42%,96%{opacity:1}100%{opacity:0}}
+.fb{animation:fb 6s ease-in-out infinite}@keyframes fb{50%{transform:translateY(-2.5px)}}
+.gl{animation:tw 3.5s ease-in-out infinite}@keyframes tw{50%{opacity:.15}}
+.fr{animation:sway 6s ease-in-out infinite}@keyframes sway{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(2.5deg)}}
+@media(prefers-reduced-motion:reduce){.br span+span{display:none}*{animation:none!important;transition:none!important}}
+
+/* ===== Pulido de diseño ===== */
+:root{--ink:#17394a;--soft:#6f8a9a;--water:#3a9fd6;--serif:Fraunces,"Iowan Old Style",Georgia,serif}
+::selection{background:#cdeaf8}
+body{font-family:"DM Sans",ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:#fff linear-gradient(var(--sk,#e6f5fc),rgba(255,255,255,0) 460px) no-repeat}
+h1{font-family:var(--serif);font-weight:500;font-size:42px;letter-spacing:-.025em;line-height:1.04}
+.sub{font-size:16px;color:var(--soft)}
+#view h2{font-size:12px;line-height:1;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin:36px 4px 14px}
+#sheet h2{font-family:var(--serif);font-weight:500;font-size:24px;letter-spacing:-.01em}
+.big,#timer{font-family:var(--serif);font-variant-numeric:lining-nums tabular-nums}.big{font-weight:500}#timer{font-weight:300;letter-spacing:-.04em}
+.cloud{filter:drop-shadow(0 6px 10px rgba(120,190,225,.28))}
+.sun{width:300px;height:300px;right:-80px;top:-100px}
+.card{border-radius:28px;border:1px solid rgba(190,220,235,.5);background:linear-gradient(180deg,#fff,#fbfeff);box-shadow:0 1px 2px rgba(23,57,74,.04),0 14px 34px -10px rgba(58,159,214,.2)}
+.tile{transition:transform .25s,box-shadow .25s}.tile:active{transform:scale(.98)}
+@media(hover:hover){.card.tile:hover{transform:translateY(-2px);box-shadow:0 1px 2px rgba(23,57,74,.04),0 20px 40px -10px rgba(58,159,214,.3)}}
+.tile .l{font-size:12.5px;letter-spacing:.02em}.tile .v{font-size:18px}
+.cta{border-radius:34px;padding:26px 22px 26px 26px;background:radial-gradient(120% 140% at 100% 0%,#94def6,transparent 55%),radial-gradient(90% 120% at 0% 100%,#2a82c4,transparent 62%),linear-gradient(135deg,#55bfea,#2f94d1);box-shadow:0 24px 46px -14px rgba(47,148,209,.6),inset 0 1px 0 rgba(255,255,255,.4)}
+.cta:before{content:"";position:absolute;left:-30px;bottom:-34px;width:170px;height:70px;border-radius:50%;background:rgba(255,255,255,.14)}
+.cta b{font-family:var(--serif);font-weight:500;font-size:25px;letter-spacing:-.015em;margin-bottom:4px}.cta span{font-size:14.5px}
+.cta svg{width:100px;filter:drop-shadow(0 10px 10px rgba(10,60,100,.25))}
+.btn{border-radius:22px;padding:17px 22px;background:linear-gradient(135deg,#4fbbe8,#2f94d1);box-shadow:0 14px 26px -10px rgba(47,148,209,.6),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s}.btn:active{transform:scale(.98)}
+.btn.ghost{background:#eef7fc;box-shadow:none;color:var(--ink)}
+.chip{background:#f1f8fc;border:1px solid #e3f0f7;padding:11px 18px}.chip.on{background:linear-gradient(135deg,#4fbbe8,#2f94d1);border-color:transparent;box-shadow:0 8px 18px -6px rgba(47,148,209,.55)}
+textarea,input[type=text],input[type=number],input[type=time]{border:1.5px solid #e3eff6;background:#fff;border-radius:20px;transition:.2s}
+textarea:focus,input:focus{border-color:#7cc7ec;box-shadow:0 0 0 4px rgba(58,159,214,.14)}
+label.t{font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+nav{background:rgba(255,255,255,.76);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);border:1px solid rgba(255,255,255,.95);border-radius:34px;box-shadow:0 20px 50px -14px rgba(23,57,74,.28),0 2px 6px rgba(23,57,74,.05)}
+nav button{font-size:10.5px;letter-spacing:.03em}
+nav .fab{background:linear-gradient(135deg,#ffdc78,#f5ae33);box-shadow:0 16px 28px -8px rgba(245,174,51,.7),0 0 0 5px rgba(255,255,255,.92)}
+.chk{width:36px;height:36px;border:2px solid #cfe3ee;background:#fff}
+.chk.on{background:linear-gradient(135deg,#94da8e,#5fb86a);border-color:transparent;box-shadow:0 6px 14px -4px rgba(95,184,106,.65)}
+.hrow{padding:16px 0;border-color:#eef5f9}.session{border-color:#eef5f9;padding:14px 0}
+.dot{width:9px;height:9px}
+.session svg{width:58px;filter:drop-shadow(0 5px 6px rgba(58,159,214,.22))}
+.arch svg,.world svg{filter:drop-shadow(0 6px 7px rgba(58,159,214,.2))}
+.world{border-radius:30px;box-shadow:0 14px 34px -12px rgba(58,159,214,.3)}
+.bars i{border-radius:12px 12px 6px 6px;background:linear-gradient(#6cc3ea,#c3e8f7)}
+#sheet{background:rgba(23,57,74,.28);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#sheet .in{border-radius:36px 36px 0 0;box-shadow:0 -20px 60px rgba(23,57,74,.18)}
+@media(min-width:700px){#sheet .in{border-radius:36px}}
+#focus{background:radial-gradient(70% 45% at 50% 38%,rgba(255,255,255,.85),transparent 70%),linear-gradient(var(--fk,#cfeaf8),#f4fbff 55%,#bfe3f3)}
+#focus .isl{filter:drop-shadow(0 20px 24px rgba(40,120,170,.24))}
+#fobj{font-family:var(--serif);font-style:italic;font-weight:400;font-size:23px;line-height:1.3;color:#34586b;padding:0 8px}
+#fobj:before{content:"\201C"}#fobj:after{content:"\201D"}
+#focus .sub{letter-spacing:.04em;font-size:14px}
+.fbtns button{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid #fff}.fbtns .end{background:transparent;border-color:transparent}
+</style>
+</head>
+<body>
+<!-- ===== 1. HTML ===== -->
+<div id="app">
+  <div class="sky" aria-hidden="true"><div class="sun"></div><div class="cloud" style="top:30px;animation-delay:-8s"></div><div class="cloud" style="top:120px;transform:scale(.7);animation-duration:55s;animation-delay:-30s"></div><div class="cloud" style="top:200px;transform:scale(1.2);animation-duration:70s;animation-delay:-3s;opacity:.6"></div></div>
+  <main id="view"></main>
+  <nav aria-label="Navegación">
+    <button data-v="home"><i data-ic="home"></i>Inicio</button>
+    <button data-v="focus"><i data-ic="island"></i>Focus</button>
+    <button class="fab" id="fab" aria-label="Crear una isla"><i data-ic="island"></i></button>
+    <button data-v="habits"><i data-ic="check"></i>Hábitos</button>
+    <button data-v="progress"><i data-ic="chart"></i>Progreso</button>
+  </nav>
+</div>
+<div id="sheet"><div class="in" id="sheetIn"></div></div>
+<div id="focus"><div class="cloud" style="top:12%;animation-duration:60s"></div><div class="cloud" style="top:28%;animation-duration:85s;animation-delay:-40s;opacity:.6"></div><div class="waves w2"></div><div class="waves"></div><div id="fisl" class="isl"></div><div id="timer">00:00</div><div id="fobj"></div><div class="bar"><i id="fbar"></i></div><p class="sub">Una cosa a la vez.</p>
+  <div class="fbtns"><button id="pauseBtn">Pausar</button><button class="end" id="endBtn">Finalizar isla</button></div></div>
+
+<script>
+/* ===== 3. APP STATE ===== */
+const KEY='islas.v1';
+const DEFAULT=()=>({islands:[],habits:[{id:'h1',name:'Entrenamiento',emoji:'🏋️'},{id:'h2',name:'Lectura',emoji:'📖'},{id:'h3',name:'Escritura',emoji:'✍️'},{id:'h4',name:'Meditación',emoji:'🧘'},{id:'h5',name:'Dormir bien',emoji:'😴'},{id:'h6',name:'No Fap',emoji:'🔥'},{id:'h7',name:'Tomar agua',emoji:'💧'}],entries:{},sleep:{},training:{},writing:[],settings:{},active:null});
+let D, view='home', pending=null, tickId=null;
+/* ===== 4. STORAGE (reemplazable por Supabase: mismas firmas load/save) ===== */
+const Store={load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}},save(d){try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}}};
+const save=()=>Store.save(D);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const dk=(d=new Date())=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())};
+const back=n=>{const d=new Date();d.setDate(d.getDate()-n);return d};
+const fm=m=>{m=Math.round(m);const h=Math.floor(m/60);return h?h+'h '+(m%60)+'m':m+' min'};
+const $=s=>document.querySelector(s);
+const dayIslands=k=>D.islands.filter(i=>dk(new Date(i.startedAt))===k);
+const writingMin=k=>D.writing.filter(w=>w.date===k).reduce((a,w)=>a+w.mins,0);
+/* ===== Iconos dibujados ===== */
+const IC={
+island:['#3aa6d9','<path class="f" d="M12 4l8 4.5-8 4.5-8-4.5z"/><path d="M4 8.5v4l8 4.5 8-4.5v-4M4 12.5v3.5l8 4.5 8-4.5v-3.5"/>'],
+moon:['#7b8cf0','<path class="f" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>'],
+check:['#5fb86a','<path d="M5 12.5l4.5 4.5L19 7.5"/>'],
+dumbbell:['#f08a5d','<path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/>'],
+pen:['#b57bd6','<path class="f" d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/>'],
+flame:['#f4a03b','<path class="f" d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5.5 1-8.5z"/>'],
+book:['#36a89d','<path class="f" d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z"/><path d="M12 6v13.5"/>'],
+drop:['#3aa6d9','<path class="f" d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'],
+lotus:['#e58fb0','<path class="f" d="M12 5c2 2 3 4 3 6.5S13.5 16 12 17c-1.5-1-3-3-3-5.5S10 7 12 5z"/><path d="M4 10c3 0 5.5 2 6 5.5M20 10c-3 0-5.5 2-6 5.5M5 19h14"/>'],
+seed:['#6fbf73','<path d="M12 20v-8"/><path class="f" d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6zM12 14.5c0-3-2-5-6-5 0 3 2 5 6 5z"/>'],
+sun:['#f6b73c','<circle class="f" cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'],
+home:['#3aa6d9','<path class="f" d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/>'],
+chart:['#3aa6d9','<path d="M4 20h16M7.5 20v-5M12 20V8M16.5 20v-9"/>'],
+timer:['#3aa6d9','<circle class="f" cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 3h5"/>']};
+IC.spark=['#f0a93c','<path class="f" d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/>'];
+const EM={'🏋️':'dumbbell','📖':'book','✍️':'pen','🧘':'lotus','😴':'moon','🔥':'flame','💧':'drop','🌱':'seed'};
+const hk=x=>IC[x.emoji]?x.emoji:(EM[x.emoji]||'seed');
+const sv=k=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${(IC[k]||IC.seed)[1]}</svg>`;
+const ic=(k,c='')=>`<span class="ic ${c}" style="--c:${(IC[k]||IC.seed)[0]}">${sv(k)}</span>`;
+const icc=k=>`<div style="display:flex;justify-content:center;margin-bottom:8px">${ic(k,'s')}</div>`;
+const STAR='<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';
+const stars=n=>'<span class="rs">'+STAR.repeat(n)+'</span>';
+const st=(k,v,l)=>`<div class="tile">${ic(k,'s')}<div class="v" style="margin-top:8px">${v}</div><div class="small">${l}</div></div>`;
+/* ===== Ilustración ===== */
+let _gid=0;
+const P=a=>a.map(p=>p.join(',')).join(' ');
+const tree=(x,y,t)=>t?`<ellipse cx="${x+2}" cy="${y+1}" rx="6" ry="2" fill="#7fa98a" opacity=".55"/><rect x="${x-.6}" y="${y-3}" width="1.2" height="3.5" fill="#7a6a55"/><circle cx="${x}" cy="${y-8}" r="6" fill="#4a8a6a"/><circle cx="${x-1.5}" cy="${y-9.5}" r="3.8" fill="#6aa985"/>`:`<ellipse cx="${x+2}" cy="${y+1}" rx="5" ry="1.8" fill="#7fa98a" opacity=".55"/><ellipse cx="${x}" cy="${y-8}" rx="3.8" ry="9.5" fill="#3f7a5e"/><ellipse cx="${x-1}" cy="${y-9}" rx="2.2" ry="7.3" fill="#5a9c7a"/>`;
+function box(cx,cy,hw,h,c){const hh=hw/2,L=[cx-hw,cy],B=[cx,cy+hh],R=[cx+hw,cy],K=[cx,cy-hh],u=p=>[p[0],p[1]-h];
+const win=(A,Q,f0,f1)=>{const p=f=>[A[0]+(Q[0]-A[0])*f,A[1]+(Q[1]-A[1])*f],a=p(f0),b=p(f1);return `<polygon points="${P([[a[0],a[1]-h*.28],[b[0],b[1]-h*.28],[b[0],b[1]-h*.74],[a[0],a[1]-h*.74]])}" fill="#7da2b7"/>`};
+return `<polygon points="${P([L,B,u(B),u(L)])}" fill="${c[1]}"/><polygon points="${P([B,R,u(R),u(B)])}" fill="${c[2]}"/>${win(L,B,.2,.45)}${win(L,B,.58,.83)}${win(B,R,.17,.42)}${win(B,R,.55,.8)}<polygon points="${P([u(L),u(B),u(R),u(K)])}" fill="${c[0]}" stroke="${c[0]}" stroke-width=".6" stroke-linejoin="round"/>`}
+function island(level=1){const g='g'+(++_gid),d=13;
+const band=(side,i)=>{const f=[0,.34,.68,1],c=side?['#cfd6d9','#b2bcc2','#98a4ab']:['#dfe4e6','#c4ccd0','#a9b4ba'],y0=d*f[i],y1=d*f[i+1];const pts=side?[[60,66+y0],[106,46+y0],[106,46+y1],[60,66+y1]]:[[14,46+y0],[60,66+y0],[60,66+y1],[14,46+y1]];return `<polygon points="${P(pts)}" fill="${c[i]}"/>`};
+const it=[[47,tree(30,47,0)],[53,tree(38,53,0)],[51,tree(88,51,1)]];
+if(level>=6)it.push([58,tree(76,58,1)]);
+if(level>=9)it.push([47,tree(95,47,0)]);
+if(level>=6)it.push([42,box(76,43,7,22,['#fbf9f4','#ebe7dc','#d6cfc0'])+(level>=9?'<path d="M76 21v-4" stroke="#c7a24a" stroke-width=".9"/><circle cx="76" cy="15" r="5" fill="#f2b84b" opacity=".28"/><circle cx="76" cy="15" r="2" fill="#f2b84b"/>':'')]);
+if(level>=3)it.push([50,box(56,50,13,11,['#f7f4ed','#e6e1d5','#cfc8b8'])]);
+it.sort((a,b)=>a[0]-b[0]);
+return `<svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9ead7"/><stop offset="1" stop-color="#b6d3b6"/></linearGradient></defs><ellipse cx="60" cy="74" rx="56" ry="13" fill="#dcebf2" opacity=".85"/><ellipse cx="60" cy="75" rx="50" ry="10" fill="none" stroke="#fff" stroke-width="1.2" opacity=".85"/><ellipse cx="60" cy="77" rx="42" ry="7" fill="#8fa9b6" opacity=".28"/>${[0,1,2].map(i=>band(0,i)+band(1,i)).join('')}<path d="M14 46L60 66 106 46" fill="none" stroke="#fff" stroke-width=".8" opacity=".55"/><polygon points="14,46 60,26 106,46 60,66" fill="url(#${g})"/><polygon points="24,46 60,30.4 96,46 60,61.6" fill="#e3f0df" opacity=".55"/>${level>=3?'<polygon points="38,50 56,41 74,50 56,59" fill="#f2efe7"/>':''}${it.map(i=>i[1]).join('')}</svg>`}
+const lvl=()=>1+Math.floor(D.islands.filter(i=>i.status!=='abandoned').length/3);
+/* ===== 5. NAVIGATION ===== */
+function go(v){view=v;document.querySelectorAll('nav [data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));render(1);scrollTo({top:0})}
+document.querySelectorAll('nav [data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
+$('#fab').onclick=()=>newIsland();
+function sheet(h){$('#sheetIn').innerHTML=h;$('#sheet').classList.add('show')}
+function closeSheet(){$('#sheet').classList.remove('show')}
+$('#sheet').onclick=e=>{if(e.target.id==='sheet')closeSheet()};
+/* ===== 6. TIME ISLAND LOGIC ===== */
+let nd=25,nc='';
+const cats=['Trabajo','Estudio','Escritura','Creativo','Personal'];
+function newIsland(){sheet(`<div class="vt">${ic('island','s')}<h2 style="margin:0">Nueva Isla</h2></div><p class="sub">¿Qué quieres construir ahora?</p>
+<label class="t">Objetivo</label><textarea id="obj" placeholder="Ej: Terminar la pantalla de experiencias" maxlength="140"></textarea>
+<label class="t">Duración</label><div class="chips" id="durs">${[15,25,45,60,90].map(m=>`<button class="chip ${m===nd?'on':''}" onclick="setDur(${m})">${m} min</button>`).join('')}</div>
+<label class="t">Categoría (opcional)</label><div class="chips">${cats.map(c=>`<button class="chip ${c===nc?'on':''}" onclick="setCat(this,'${c}')">${c}</button>`).join('')}</div>
+<div style="margin-top:24px"><button class="btn" onclick="startIsland()">Comenzar isla</button></div>`);setTimeout(()=>$('#obj')&&$('#obj').focus(),300)}
+function setDur(m){nd=m;document.querySelectorAll('#durs .chip').forEach(c=>c.classList.toggle('on',c.textContent==m+' min'))}
+function setCat(b,c){nc=nc===c?'':c;b.parentNode.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.textContent===nc))}
+function startIsland(){const o=$('#obj').value.trim()||'Un rato de enfoque';const now=Date.now();
+D.active={objective:o,category:nc,planned:nd,startedAt:now,endAt:now+nd*60000,paused:false,remain:0};save();closeSheet();enterFocus()}
+function enterFocus(){const a=D.active;$('#fisl').innerHTML=island(lvl());$('#fobj').textContent=a.objective;$('#focus').classList.add('show');document.body.style.overflow='hidden';$('#pauseBtn').textContent=a.paused?'Reanudar':'Pausar';clearInterval(tickId);tick();tickId=setInterval(tick,250)}
+function tick(){const a=D.active;if(!a)return;const ms=a.paused?a.remain:a.endAt-Date.now();if(ms<=0&&!a.paused){finish(true);return}
+const s=Math.ceil(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),z=n=>String(n).padStart(2,'0');
+const t=(h?h+':':'')+z(m)+':'+z(s%60);$('#timer').textContent=t;$('#fbar').style.width=Math.min(100,100-ms/(a.planned*60000)*100)+'%';document.title=t+' · Isla'}
+$('#pauseBtn').onclick=()=>{const a=D.active;if(a.paused){a.endAt=Date.now()+a.remain;a.paused=false}else{a.remain=a.endAt-Date.now();a.paused=true}$('#pauseBtn').textContent=a.paused?'Reanudar':'Pausar';save();tick()};
+$('#endBtn').onclick=()=>{const a=D.active;const el=(a.paused?a.planned*60000-a.remain:Date.now()-a.startedAt)/60000;
+sheet(`<h2 style="margin:0 0 8px">¿Finalizar esta isla?</h2><p class="sub">Llevas ${fm(el)}. Todo lo que avanzaste cuenta.</p><div style="display:grid;gap:10px;margin-top:20px"><button class="btn" onclick="closeSheet();finish(false)">Finalizar y guardar</button><button class="btn ghost" onclick="closeSheet()">Seguir en la isla</button></div>`)};
+function finish(done){const a=D.active;if(done)chime();clearInterval(tickId);document.title='Islas · Tu pequeño mundo';
+const end=Date.now();const worked=done?a.planned:Math.max(1,Math.round((a.paused?a.planned*60000-a.remain:end-a.startedAt)/60000));
+const isl={id:uid(),createdAt:a.startedAt,startedAt:a.startedAt,endedAt:end,plannedMinutes:a.planned,actualMinutes:worked,objective:a.objective,category:a.category,status:done?'completed':'ended_early',objectiveResult:null,rating:null};
+D.islands.push(isl);if(a.category==='Escritura')D.writing.push({id:uid(),date:dk(),mins:worked,source:'island'});
+D.active=null;save();$('#focus').classList.remove('show');document.body.style.overflow='';pending=isl;completeScreen(isl,done)}
+function completeScreen(i,done){celebrate();sheet(`<div style="text-align:center"><div style="width:150px;margin:0 auto;animation:float 5s ease-in-out infinite;transform:scale(${1+Math.min(lvl(),6)*.03})">${island(lvl())}</div>
+<h2 style="margin:6px 0">${done?'Isla completada':'Isla guardada'}</h2><div class="big">${fm(i.actualMinutes)}</div><p class="sub">${done?'de enfoque.':'No pasa nada. Lo importante es que empezaste.'}</p>
+<p style="font-weight:600;margin:14px 0">“${esc(i.objective)}”</p>
+<p class="small" style="margin:18px 0 0">¿Cómo fue esta isla?</p><div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="rate(${n})" aria-label="${n} estrellas">${STAR}</button>`).join('')}</div>
+<p class="small">¿Completaste tu objetivo?</p><div class="chips" style="justify-content:center" id="res">${[['yes','Sí'],['partial','Parcialmente'],['no','No']].map(r=>`<button class="chip" onclick="result('${r[0]}',this)">${r[1]}</button>`).join('')}</div>
+<div style="margin-top:22px;display:grid;gap:10px"><button class="btn" onclick="closeSheet();go('focus')">Listo</button><button class="btn ghost" onclick="breathe()">Respirar un momento</button></div></div>`)}
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function rate(n){pending.rating=n;save();document.querySelectorAll('.stars button').forEach((b,k)=>b.classList.toggle('on',k<n))}
+function result(r,b){pending.objectiveResult=r;save();document.querySelectorAll('#res .chip').forEach(c=>c.classList.toggle('on',c===b))}
+function chime(){try{const c=new (window.AudioContext||window.webkitAudioContext)();c.resume();[523,659,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+i*.18;o.type='sine';o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.05);g.gain.exponentialRampToValueAtTime(.001,t+1.2);o.start(t);o.stop(t+1.3)})}catch(e){}}
+function celebrate(){const cols=['#ffd76a','#8fd3f0','#a8e0a4','#fff'];for(let i=0;i<22;i++){const s=document.createElement('span');s.className='spark';s.style.cssText=`left:${10+Math.random()*80}%;background:${cols[i%4]};animation-delay:${Math.random()*.8}s;width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;z-index:99;position:fixed;bottom:30%`;document.body.appendChild(s);setTimeout(()=>s.remove(),4200)}}
+/* ===== 7. HABITS ===== */
+const hDone=(id,k)=>(D.entries[k]||[]).includes(id);
+function toggleHabit(id){const k=dk();const e=D.entries[k]=D.entries[k]||[];const i=e.indexOf(id);i>=0?e.splice(i,1):e.push(id);save();render();if(i<0){try{navigator.vibrate&&navigator.vibrate(12)}catch(x){}const b=document.querySelector('[data-h="'+id+'"] .chk');b&&b.classList.add('pop')}}
+function streak(id){let n=0,i=hDone(id,dk())?0:1;while(hDone(id,dk(back(i)))){n++;i++}return n}
+let ni='seed';
+function pickIc(k){ni=k;document.querySelectorAll('#pick button').forEach(b=>b.style.opacity=b.getAttribute('onclick').includes("'"+k+"'")?1:.4)}
+function habitSheet(id){const h=D.habits.find(x=>x.id===id);sheet(`<div class="vt">${ic(hk(h),'s')}<h2 style="margin:0">Editar hábito</h2></div><label class="t">Nombre</label><input type="text" id="hn" value="${esc(h.name)}" maxlength="30"><div style="display:grid;gap:10px;margin-top:22px"><button class="btn" onclick="renameHabit('${id}')">Guardar</button><button class="btn ghost" onclick="delHabit('${id}')">Quitar hábito</button></div>`)}
+function renameHabit(id){const v=$('#hn').value.trim();if(v){D.habits.find(x=>x.id===id).name=v;save()}closeSheet();render()}
+function delHabit(id){D.habits=D.habits.filter(x=>x.id!==id);save();closeSheet();render()}
+function islSheet(id){sheet(`<h2 style="margin:0 0 6px">Esta isla</h2><p class="sub">Puedes quitarla de tu historial.</p><div style="display:grid;gap:10px;margin-top:20px"><button class="btn ghost" onclick="delIsl('${id}')">Eliminar isla</button><button class="btn" onclick="closeSheet()">Cerrar</button></div>`)}
+function delIsl(id){D.islands=D.islands.filter(i=>i.id!==id);save();closeSheet();render()}
+function addHabit(){const v=$('#nh').value.trim();if(!v)return;D.habits.push({id:uid(),name:v,emoji:ni});save();render()}
+/* ===== 8. SLEEP ===== */
+function sleepSheet(){const s=D.sleep[dk()]||{bed:'23:30',wake:'07:00'};sheet(`<div class="vt">${ic('moon','s')}<h2 style="margin:0">Sueño</h2></div><p class="sub">Solo un registro personal.</p>
+<div class="grid"><div><label class="t">Me dormí</label><input type="time" id="sb" value="${s.bed}"></div><div><label class="t">Desperté</label><input type="time" id="sw" value="${s.wake}"></div></div><div style="margin-top:22px"><button class="btn" onclick="saveSleep()">Guardar</button></div>`)}
+function saveSleep(){const b=$('#sb').value,w=$('#sw').value;if(!b||!w)return;const t=x=>+x.split(':')[0]*60+ +x.split(':')[1];let m=t(w)-t(b);if(m<=0)m+=1440;D.sleep[dk()]={bed:b,wake:w,mins:m};save();closeSheet();render()}
+const sleepMsg=m=>m>=420?'Buen descanso':m>=360?'Descanso suficiente':'Hoy, un poco más de calma';
+/* ===== 9. TRAINING ===== */
+function toggleTrain(){D.training[dk()]=!D.training[dk()];save();render()}
+/* ===== 10. WRITING ===== */
+function writeSheet(){sheet(`<div class="vt">${ic('pen','s')}<h2 style="margin:0">Escritura</h2></div><p class="sub">Hoy: ${writingMin(dk())} min</p><label class="t">Añadir minutos</label><div class="chips">${[10,20,30,45].map(m=>`<button class="chip" onclick="addWrite(${m})">${m} min</button>`).join('')}</div>
+<label class="t">Otro valor</label><div class="row"><input type="number" id="wm" min="1" max="600" placeholder="min"><button class="btn" style="width:auto" onclick="addWrite(+$('#wm').value)">Añadir</button></div>`)}
+function addWrite(m){if(!(m>0))return;D.writing.push({id:uid(),date:dk(),mins:Math.round(m)});save();closeSheet();render()}
+/* ===== 11. PROGRESS ===== */
+function monthStats(){const p=dk().slice(0,7);const is=D.islands.filter(i=>dk(new Date(i.startedAt)).startsWith(p));const lec=D.habits.find(h=>/lectura/i.test(h.name));
+return{n:is.length,min:is.reduce((a,i)=>a+i.actualMinutes,0),w:D.writing.filter(w=>w.date.startsWith(p)).reduce((a,w)=>a+w.mins,0),t:Object.keys(D.training).filter(k=>k.startsWith(p)&&D.training[k]).length,r:lec?Object.keys(D.entries).filter(k=>k.startsWith(p)&&D.entries[k].includes(lec.id)).length:0,isl:is}}
+function weekStats(){const days=[...Array(7)].map((_,i)=>dk(back(i)));const is=D.islands.filter(i=>days.includes(dk(new Date(i.startedAt))));return{n:is.length,min:is.reduce((a,i)=>a+i.actualMinutes,0),ok:is.filter(i=>i.objectiveResult==='yes').length}}
+/* ===== 12. RENDERING ===== */
+const check=on=>`<span class="chk ${on?'on':''}"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>`;
+const DL=['D','L','M','M','J','V','S'];
+const when=ts=>{const d=new Date(ts),k=dk(d),h=d.toTimeString().slice(0,5);return(k===dk()?'Hoy':k===dk(back(1))?'Ayer':d.toLocaleDateString('es',{weekday:'short',day:'numeric',month:'short'}))+' · '+h};
+function render(a){const v=$('#view');v.innerHTML=`<div class="view${a?'':' still'}">${({home:rHome,focus:rFocus,habits:rHabits,progress:rProgress})[view]()}</div>`}
+const homeMsg=()=>{const k=dk(),h=new Date().getHours(),n=dayIslands(k).length,hd=D.habits.filter(x=>hDone(x.id,k)).length;return h>=21?'Descansa. Mañana empieza otro día.':hd&&hd===D.habits.length?'Un día completo, a tu ritmo.':n?'Ya construiste algo hoy.':'Hoy también cuenta.'};
+const POS=[[4,34],[27,6],[48,40],[68,8],[82,38],[16,58],[60,60]];
+function world(){const w=D.islands.filter(i=>Date.now()-i.startedAt<6048e5).slice(-7);
+return `<div class="world">${w.length?w.map((i,k)=>`<div style="left:${POS[k][0]}%;top:${POS[k][1]}%;animation-delay:${-k*1.3}s">${island(i.actualMinutes>=45?6:i.actualMinutes>=25?3:1)}</div>`).join(''):`<div style="left:35%;top:18%;opacity:.55">${island(1)}</div>`}<div class="waves" style="height:56px"></div></div><p class="small" style="text-align:center;margin:10px 0 0">${w.length?w.length+(w.length===1?' isla':' islas')+' esta semana. Mira lo que estás construyendo.':'Tu primera isla te espera.'}</p>`}
+function breathe(){sheet(`<div style="text-align:center"><div class="vt" style="justify-content:center">${ic('lotus','s')}<h2 style="margin:0">Respira</h2></div><p class="sub" style="margin-top:8px">Inhala por la nariz. Exhala despacio.</p><div class="br"><span>Inhala</span><span>Exhala</span></div><button class="btn ghost" onclick="closeSheet()">Volver</button></div>`)}
+const goodCard=()=>{const n=D.good[dk()];return `<button class="card tile" onclick="goodSheet()" style="display:flex;align-items:center;gap:14px;margin-top:14px">${ic('spark')}<div><div class="v">${n?esc(n):'Una cosa buena de hoy'}</div><div class="l" style="margin-top:2px">${n?'Guardado. Toca para cambiarlo.':'Una línea basta.'}</div></div></button>`};
+function goodSheet(){sheet(`<div class="vt">${ic('spark','s')}<h2 style="margin:0">Una cosa buena de hoy</h2></div><p class="sub">Pequeña o grande, cuenta.</p><label class="t">Hoy</label><textarea id="gn" maxlength="120">${esc(D.good[dk()]||'')}</textarea><div style="margin-top:20px"><button class="btn" onclick="saveGood()">Guardar</button></div>`)}
+function saveGood(){const v=$('#gn').value.trim();if(v)D.good[dk()]=v;else delete D.good[dk()];save();closeSheet();render()}
+const goodList=()=>{const ks=Object.keys(D.good).sort().reverse().slice(0,5);return ks.length?`<h2>Cosas buenas</h2><div class="card">${ks.map(k=>`<div class="session"><div><b style="font-weight:500">${esc(D.good[k])}</b><span class="small">${new Date(k+'T12:00').toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long'})}</span></div></div>`).join('')}</div>`:''};
+function rHome(){const h=new Date().getHours(),k=dk();const g=h<12?'Buenos días':h<20?'Buenas tardes':'Buenas noches';const is=dayIslands(k),m=is.reduce((a,i)=>a+i.actualMinutes,0);
+const hd=D.habits.filter(x=>hDone(x.id,k)).length,s=D.sleep[k],wm=writingMin(k);
+return`<div style="height:70px"></div><p class="small" style="margin:0;text-transform:capitalize">${new Date().toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long'})}</p><h1 style="margin-top:6px">${g}.</h1><p class="sub">${homeMsg()}</p>
+<button class="cta" onclick="newIsland()"><div><b>Crear una Isla</b><span>¿En qué quieres concentrarte?</span></div>${island(lvl())}</button>
+${goodCard()}<h2>Tu día</h2><div class="grid">
+<button class="card tile" onclick="sleepSheet()"><div class="e">${ic('moon')}</div><div class="l">Sueño</div><div class="v">${s?fm(s.mins):'Registrar'}</div></button>
+<button class="card tile" onclick="go('focus')"><div class="e">${ic('island')}</div><div class="l">Focus</div><div class="v">${is.length} ${is.length===1?'isla':'islas'}${m?' · '+fm(m):''}</div></button>
+<button class="card tile" onclick="go('habits')"><div class="e">${ic('check')}</div><div class="l">Hábitos</div><div class="v">${hd}/${D.habits.length}</div></button>
+<button class="card tile" onclick="toggleTrain()"><div class="e">${ic('dumbbell')}</div><div class="l">Entrenamiento</div><div class="v">${D.training[k]?'Completado':'Marcar'}</div></button>
+<button class="card tile" onclick="writeSheet()" style="grid-column:span 2"><div class="e">${ic('pen')}</div><div class="l">Escritura</div><div class="v">${wm?wm+' min':'Añadir minutos'}</div></button></div>
+<button class="card tile" onclick="breathe()" style="margin-top:12px;display:flex;align-items:center;gap:14px">${ic('lotus')}<div><div class="v">Respira un momento</div><div class="l" style="margin-top:2px">Un minuto, sin hacer nada más.</div></div></button>
+<h2>Tu mundo</h2>${world()}`}
+function rFocus(){const w=weekStats(),all=[...D.islands].reverse().slice(0,30);
+return`<div style="height:50px"></div><h1>Focus</h1><p class="sub">Tiempo que decidiste proteger.</p>
+<div class="card" style="margin-top:18px"><div class="small">Esta semana</div><div class="grid" style="margin-top:10px;text-align:center"><div>${icc('island')}<div class="big" style="font-size:30px">${w.n}</div><div class="small">islas</div></div><div>${icc('timer')}<div class="big" style="font-size:30px">${fm(w.min)}</div><div class="small">de enfoque</div></div></div><p class="small" style="text-align:center;margin:14px 0 0">${w.ok} objetivos completados</p></div>
+<h2>Tus islas</h2><div class="card">${all.length?all.map(i=>`<div class="session" onclick="islSheet('${i.id}')" style="cursor:pointer">${island(i.actualMinutes>=45?6:i.actualMinutes>=25?3:1)}<div><b>${fm(i.actualMinutes)} · “${esc(i.objective)}”</b><span class="small">${when(i.startedAt)}${i.category?' · '+i.category:''}${i.rating?' · '+stars(i.rating):''}</span></div></div>`).join(''):`<p class="sub" style="text-align:center;padding:20px">Aún no hay islas. Todo empieza con una pequeña acción.</p>`}</div>`}
+function rHabits(){const k=dk(),w=[...Array(7)].map((_,i)=>back(6-i));const tw=[...Array(7)].map((_,i)=>dk(back(6-i)));
+return`<div style="height:50px"></div><h1>Hábitos</h1><p class="sub">Pequeñas semillas de cambio.</p>
+<h2>Hoy <span class="small" style="font-weight:600">· ${D.habits.filter(x=>hDone(x.id,k)).length}/${D.habits.length}</span></h2><div class="card">${D.habits.map(x=>{const s=streak(x.id);return`<div class="hrow"><button data-h="${x.id}" onclick="toggleHabit('${x.id}')" aria-label="${x.name}">${check(hDone(x.id,k))}</button>${ic(hk(x),'s')}<div onclick="habitSheet('${x.id}')" style="cursor:pointer"><b>${esc(x.name)}</b><div class="small">${s?(hk(x)==='flame'?'Día '+s+' · Sigues avanzando.':s+(s===1?' día':' días')):'Un nuevo día empieza aquí.'}</div></div><div class="dots">${tw.map(t=>`<i class="dot ${hDone(x.id,t)?'on':''} ${t===k?'today':''}"></i>`).join('')}</div></div>`}).join('')}
+<div class="chips" id="pick" style="margin-top:16px">${['seed','book','dumbbell','pen','lotus','drop','moon','sun','flame'].map(k=>`<button onclick="pickIc('${k}')" style="opacity:${k===ni?1:.4}">${ic(k,'s')}</button>`).join('')}</div><div class="row" style="margin-top:12px"><input type="text" id="nh" placeholder="Nueva semilla…" maxlength="30"><button class="chip on" onclick="addHabit()">Añadir</button></div></div>
+<div class="small" style="display:flex;justify-content:flex-end;gap:5px;margin:8px 4px 0">${w.map(d=>`<span style="width:10px;text-align:center">${DL[d.getDay()]}</span>`).join('')}</div>
+<h2>Cuerpo y mente</h2><div class="grid">
+<button class="card tile" onclick="sleepSheet()"><div class="e">${ic('moon')}</div><div class="v">${D.sleep[k]?fm(D.sleep[k].mins):'—'}</div><div class="l">${D.sleep[k]?sleepMsg(D.sleep[k].mins):'Registrar sueño'}</div></button>
+<button class="card tile" onclick="toggleTrain()"><div class="e">${ic('dumbbell')}</div><div class="v">${D.training[k]?'Entrené hoy':'Entrenamiento'}</div><div class="dots" style="margin:8px 0 0">${tw.map(t=>`<i class="dot ${D.training[t]?'on':''}"></i>`).join('')}</div></button>
+<button class="card tile" onclick="writeSheet()" style="grid-column:span 2"><div class="e">${ic('pen')}</div><div class="v">${writingMin(k)} min hoy</div><div class="l">Escritura · toca para añadir</div></button></div>
+<p class="small" style="text-align:center;margin-top:28px">Pequeños pasos, grandes cambios.</p>`}
+function rProgress(){const m=monthStats(),days=[...Array(7)].map((_,i)=>back(6-i));const vals=days.map(d=>dayIslands(dk(d)).reduce((a,i)=>a+i.actualMinutes,0)),mx=Math.max(...vals,30);
+const sl=Object.values(D.sleep).filter(s=>s.mins),avg=sl.length?sl.reduce((a,s)=>a+s.mins,0)/sl.length:0;
+return`<div style="height:50px"></div><h1>Progreso</h1><p class="sub">Mira todo lo que has construido.</p>
+<div class="card" style="margin-top:18px"><div class="small">Este mes</div><div class="arch">${m.isl.slice(-12).map(i=>island(i.actualMinutes>=45?6:i.actualMinutes>=25?3:1)).join('')||`<p class="sub" style="padding:18px">Tu archipiélago empezará con la primera isla.</p>`}</div>
+<div class="grid" style="margin-top:14px">${st('island',m.n,'islas')}${st('timer',fm(m.min),'de enfoque')}${st('pen',fm(m.w),'de escritura')}${st('dumbbell',m.t,'entrenamientos')}${st('book',m.r,'días de lectura')}${avg?st('moon',fm(avg),'sueño promedio'):''}</div></div></div>
+<h2>Enfoque de la semana</h2><div class="card"><div class="bars">${vals.map((v,i)=>`<div><i style="height:${Math.max(6,v/mx*80)}px"></i>${DL[days[i].getDay()]}</div>`).join('')}</div></div>
+${goodList()}<p class="small" style="text-align:center;margin-top:28px">No busques perfección. Busca constancia.</p>`}
+function skyTheme(){const h=new Date().getHours();const t=h>=5&&h<10?['#fdebd8','#f9d9c0','#ffe2a8']:h>=10&&h<17?['#e6f5fc','#cfeaf8','#fff3c2']:h>=17&&h<20?['#fbe5e3','#f4cfd0','#ffd7b0']:['#e4e9f9','#cdd6f2','#e8ecff'];const x=document.documentElement.style;x.setProperty('--sk',t[0]);x.setProperty('--fk',t[1]);x.setProperty('--sc',t[2]);document.querySelector('meta[name=theme-color]').content=t[0]}
+/* ===== 13/14. INIT ===== */
+(function init(){const s=Store.load();D=Object.assign(DEFAULT(),s||{});D.good=D.good||{};if(D.mood){for(const k in D.mood)if(D.mood[k].note&&!D.good[k])D.good[k]=D.mood[k].note;delete D.mood}skyTheme();setInterval(skyTheme,6e5);save();document.querySelectorAll('[data-ic]').forEach(e=>e.innerHTML=sv(e.dataset.ic));go('home');if(D.active)enterFocus()})();
+</script>
+</body>
+</html>
